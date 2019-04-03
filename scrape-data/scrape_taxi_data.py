@@ -28,3 +28,8 @@ for link in data_links:
 yellow_cab_data = concatDF(yellow)
 green_cab_data = concatDF(green)
 fhv_data = concatDF(fhv)
+
+# Write to data folder
+yellow_cab_data.to_csv('data/yellow_cab_data.csv', index = False)
+green_cab_data.to_csv('data/green_cab_data.csv', index = False)
+fhv_data.to_csv('data/fhv_data.csv', index = False)
