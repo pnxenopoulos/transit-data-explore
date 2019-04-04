@@ -15,13 +15,13 @@ for year in range(2014, current_year):
     for month in range(1,13):
         if month < 10:
             month = '0' + str(month)
-        data_links.append("https://s3.amazonaws.com/tripdata/" + str(year) + month + "-citibike-tripdata.zip")
+        data_links.append("https://s3.amazonaws.com/tripdata/" + str(year) + str(month) + "-citibike-tripdata.zip")
 
 if current_month > 2:
     for month in range(1, current_month - 1):
         if month < 10:
             month = '0' + str(month)
-        data_links.append("https://s3.amazonaws.com/tripdata/" + str(current_year) + month + "-citibike-tripdata.zip")
+        data_links.append("https://s3.amazonaws.com/tripdata/" + str(current_year) + str(month) + "-citibike-tripdata.zip")
 
 # Separate and concatenate the data
 citibike_data = concatDF(data_links)
