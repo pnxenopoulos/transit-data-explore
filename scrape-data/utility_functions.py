@@ -11,14 +11,13 @@ def readHTMLPage(url):
 	page_html = str(parsed_page)
 	return page_html
 
-def concatDF(files):
+def concatDF(data, file):
 	''' This is a function to read in a list of filepaths/urls and concatenate all of the dataframes into one
-	@param files List: A list of filepaths/urls to read
+	@param data DataFrame: A dataframe to append to
+	@param file List: A list of filepaths/urls to read
 	'''
-	data = pd.DataFrame()
-	for file in files:
-		print('Reading in ', file)
-		temp = pd.read_csv(file)
-		temp.columns = [x.lower() for x in temp.columns]
-		data = pd.concat([data, temp])
+	print('Reading and merging ' + file)
+	temp = pd.read_csv(file)
+	temp.columns = [x.lower() for x in temp.columns]
+	data = pd.concat([data, temp])
 	return data
