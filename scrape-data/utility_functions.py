@@ -19,5 +19,6 @@ def concatDF(files):
 	for file in files:
 		print('Reading in ', file)
 		temp = pd.read_csv(file)
+		temp.columns = [x.lower() for x in temp.columns]
 		data = pd.concat([data, temp])
 	return data
