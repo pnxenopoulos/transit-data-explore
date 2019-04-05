@@ -36,7 +36,7 @@ for link in data_links:
 		zip_file = ZipFile(BytesIO(remotezip.content))
 		temp = pd.read_csv(zip_file.open('201902-citibike-tripdata.csv'))
 		temp.columns = [x.lower() for x in temp.columns]
-		citibike_data = pd.concat([data, temp])
+		citibike_data = pd.concat([citibike_data, temp])
 	else:
 		citibike_data = concatDF(citibike_data, link)
 
