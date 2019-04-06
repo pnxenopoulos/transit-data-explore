@@ -13,25 +13,26 @@ current_month = now.month
 data_links = []
 
 for year in range(2014, current_year):
-    for month in range(1,13):
-        if month < 10:
-            month = '0' + str(month)
-        if year > 2016:
-        	data_links.append("https://s3.amazonaws.com/tripdata/" + str(year) + str(month) + "-citibike-tripdata.csv.zip")
-        else:
-        	data_links.append("https://s3.amazonaws.com/tripdata/" + str(year) + str(month) + "-citibike-tripdata.zip")
-        
+	for month in range(1,13):
+		if month < 10:
+			month = '0' + str(month)
+		if year > 2016:
+			data_links.append("https://s3.amazonaws.com/tripdata/" + str(year) + str(month) + "-citibike-tripdata.csv.zip")
+		else:
+			data_links.append("https://s3.amazonaws.com/tripdata/" + str(year) + str(month) + "-citibike-tripdata.zip")
+		
 
 if current_month > 2:
-    for month in range(1, current_month - 1):
-        if month < 10:
-            month = '0' + str(month)
-        data_links.append('https://s3.amazonaws.com/tripdata/' + str(current_year) + str(month) + '-citibike-tripdata.csv.zip')
+	for month in range(1, current_month - 1):
+		if month < 10:
+			month = '0' + str(month)
+		data_links.append('https://s3.amazonaws.com/tripdata/' + str(current_year) + str(month) + '-citibike-tripdata.csv.zip')
 
 citibike_data = pd.DataFrame()
 for link in data_links:
 	if '201902' in link:
 		url = 'https://s3.amazonaws.com/tripdata/201902-citibike-tripdata.csv.zip'
+		print('Reading and merging ' + url)
 		remotezip = get(url)
 		zip_file = ZipFile(BytesIO(remotezip.content))
 		temp = pd.read_csv(zip_file.open('201902-citibike-tripdata.csv'))
