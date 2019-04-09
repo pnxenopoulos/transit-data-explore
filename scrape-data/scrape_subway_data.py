@@ -17,10 +17,10 @@ data_links = [url_start + s for s in all_links]
 mta_turnstile_data = pd.DataFrame(columns = ['ca', 'unit', 'scp', 'station', 'linename', 'division', 'date', 'time', 'desc', 'entries', 'exists'])
 
 # Separate and concatenate the data
-for link in data_links:
+for i, link in enumerate(data_links):
 	mta_turnstile_data = concatDF(mta_turnstile_data, link)
-
-mta_turnstile_data.columns = ['ca', 'unit', 'scp', 'station', 'linename', 'division', 'date', 'time', 'desc', 'entries', 'exists']
-
-# Write to data folder
-mta_turnstile_data.to_csv('data/mta_turnstile.csv', index = False)
+	if (i % 10 == 0) and (i != 0):
+		filename = 'data/mta_turnstile_' + str(int(i/10)) + '.csv'
+		mta_turnstile_data.to_csv(filename, index = False)
+		mta_turnstile_data = pd.DataFrame(columns = ['ca', 'unit', 'scp', 'station', 'linename', 'division', 'date', 'time', 'desc', 'entries', 'exists'])
+		print('Wrote ' + str(int(i/10)))

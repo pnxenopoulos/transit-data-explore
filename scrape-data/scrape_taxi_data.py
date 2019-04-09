@@ -24,6 +24,10 @@ for link in data_links:
 	else:
 		fhv.append(link)
 
+yellow_cab_data = pd.DataFrame()
+for link in yellow:
+	yellow_cab_data = concatDF(yellow_cab_data, link)
+
 # Separate and concatenate the data
 yellow_cab_data = concatDF(yellow)
 green_cab_data = concatDF(green)
