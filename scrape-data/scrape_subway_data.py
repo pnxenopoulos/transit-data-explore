@@ -24,3 +24,8 @@ for i, link in enumerate(data_links):
 		mta_turnstile_data.to_csv(filename, index = False)
 		mta_turnstile_data = pd.DataFrame(columns = ['ca', 'unit', 'scp', 'station', 'linename', 'division', 'date', 'time', 'desc', 'entries', 'exists'])
 		print('Wrote ' + str(int(i/10)))
+	if i == len(data_links)-1:
+		filename = 'data/mta_turnstile_last.csv'
+		mta_turnstile_data.to_csv(filename, index = False)
+		mta_turnstile_data = pd.DataFrame(columns = ['ca', 'unit', 'scp', 'station', 'linename', 'division', 'date', 'time', 'desc', 'entries', 'exists'])
+		print('Wrote ' + str(int(i/10) + 1))

@@ -25,8 +25,17 @@ for link in data_links:
 		fhv.append(link)
 
 yellow_cab_data = pd.DataFrame()
-for link in yellow:
+for i, link in enumerate(yellow):
 	yellow_cab_data = concatDF(yellow_cab_data, link)
+	if (i % 5 == 0) and (i != 0):
+		filename = 'data/yellow_cab_' + str(int(i/5)) + '.csv'
+		mta_turnstile_data.to_csv(filename, index = False)
+		mta_turnstile_data = pd.DataFrame(columns = ['ca', 'unit', 'scp', 'station', 'linename', 'division', 'date', 'time', 'desc', 'entries', 'exists'])
+		print('Wrote ' + str(int(i/10)))
+
+green_cab_data = pd.DataFrame(columns = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type'])
+for i, link in enumerate(yellow):
+	green_cab_data = concatDF(green_cab_data, link)
 
 # Separate and concatenate the data
 yellow_cab_data = concatDF(yellow)
