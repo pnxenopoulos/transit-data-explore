@@ -3,7 +3,7 @@ import pandas as pd
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
-from utility_functions import readHTMLPage, concatDF
+from utility_functions import readHTMLPage
 
 # Call in the HTML page data
 url = 'https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page'
@@ -24,25 +24,20 @@ for link in data_links:
 	else:
 		fhv.append(link)
 
-yellow_cab_data = pd.DataFrame()
-for i, link in enumerate(yellow):
-	yellow_cab_data = concatDF(yellow_cab_data, link)
-	if (i % 5 == 0) and (i != 0):
-		filename = 'data/yellow_cab_' + str(int(i/5)) + '.csv'
-		mta_turnstile_data.to_csv(filename, index = False)
-		mta_turnstile_data = pd.DataFrame(columns = ['ca', 'unit', 'scp', 'station', 'linename', 'division', 'date', 'time', 'desc', 'entries', 'exists'])
-		print('Wrote ' + str(int(i/10)))
+yellow_cab_cols = ['vendorid', 'tpep_pickup_datetime', 'tpep_dropoff_datetime','passenger_count', 'trip_distance', 'ratecodeid', 'store_and_fwd_flag', 'pulocationid', 'dolocationid', 'payment_type', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'improvement_surcharge', 'total_amount']
 
-green_cab_data = pd.DataFrame(columns = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type'])
-for i, link in enumerate(yellow):
-	green_cab_data = concatDF(green_cab_data, link)
+green_cab_cols = ['vendor_id', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'ratecode_id', 'pu_location_id', 'do_location_id', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']
 
-# Separate and concatenate the data
-yellow_cab_data = concatDF(yellow)
-green_cab_data = concatDF(green)
-fhv_data = concatDF(fhv)
+for link in yellow:
+	yearmonth = re.findall('\d{4}-\d{2}', link)[0]
+	filename = 'data/vehicle/yellow/yellow_' + yearmonth + '.csv'
+	yellow_cab_data = pd.read_csv(link, skiprows = 1, header = None)
+	yellow_cab_data.columns = yellow_cab_cols
+	yellow_cab_data.to_csv(filename, index = False)
 
-# Write to data folder
-yellow_cab_data.to_csv('data/yellow_cab_data.csv', index = False)
-green_cab_data.to_csv('data/green_cab_data.csv', index = False)
-fhv_data.to_csv('data/fhv_data.csv', index = False)
+for link in green:
+	yearmonth = re.findall('\d{4}-\d{2}', link)[0]
+	filename = 'data/vehicle/green/green_' + yearmonth + '.csv'
+	green_cab_data = pd.read_csv(link, skiprows = 1, header = None)
+	green_cab_data.columns = green_cab_cols
+	green_cab_data.to_csv(filename, index = False)
